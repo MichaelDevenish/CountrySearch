@@ -1,41 +1,16 @@
 var map = null;
 var marker = null;
 
-//when the application loads this is used to load the map at a basic position
-function drawMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 5,
-        center: { lat: 0, lng: 0 },
-        mapTypeId: 'roadmap'
-    });
-}
-
+//queries the database for a location based on the users location
 function queryGeo() {
     if (navigator.geolocation) {
+        //hide errors relating to geo
         $("p#geoError").css('visibility', 'hidden');
         $("p#geoError").css('height', '0px');
         $("p#geoError").css('margin-bottom', '0px');
-        navigator.geolocation.getCurrentPosition(showPosition, error);
-    } else {
-        $("p#geoError").css('visibility', 'visible');
-        $("p#geoError").css('height', '24px');
-        $("p#geoError").css('margin-bottom', '16px');
-    }
-}
-function showPosition(position) {
-    queryDatabase("/geo", { lat: position.coords.latitude, lng: position.coords.longitude });
-}
-
-function error() {
-    $("p#geoError").css('visibility', 'visible');
-    $("p#geoError").css('height', '24px');
-    $("p#geoError").css('margin-bottom', '16px');
-}
-
-function hideError(self) {
-    self.style.visibility = "hidden";
-    self.style.height = "0px";
-    self.style.marginBottom = "0px";
+        //get the users location
+        navigator.geolocation.getCurrentPosition(showPosition, GeoErrorShow);
+    } else GeoErrorShow(); //geo cannot be obtained
 }
 
 //queries the database for a location based on a name
@@ -80,6 +55,25 @@ function queryDatabase(path, request) {
     });
 }
 
+//calls the database for the country relating to the users location when called by navigator.geolocation.getCurrentPosition
+function showPosition(position) {
+    queryDatabase("/geo", { lat: position.coords.latitude, lng: position.coords.longitude });
+}
+
+//Shows the geo error when the users location cannot be found or is blocked
+function GeoErrorShow() {
+    $("p#geoError").css('visibility', 'visible');
+    $("p#geoError").css('height', '24px');
+    $("p#geoError").css('margin-bottom', '16px');
+}
+
+//Used to hide errors when they are clicked on
+function hideError(self) {
+    self.style.visibility = "hidden";
+    self.style.height = "0px";
+    self.style.marginBottom = "0px";
+}
+
 //formats the data to be readable by the user
 function ConstructResult(information) {
     //format the data that was returned to be html readable
@@ -117,6 +111,15 @@ function FormatCurrencies(information) {
     }
     result += "</p>";
     return result;
+}
+
+//when the application loads this is used to load the map at a basic position
+function drawMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 5,
+        center: { lat: 0, lng: 0 },
+        mapTypeId: 'roadmap'
+    });
 }
 
 //set the map marker to the provided location with the supplied name
