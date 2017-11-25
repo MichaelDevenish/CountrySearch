@@ -8,10 +8,23 @@
 }
 
 .two {
-	background-color:#999;
     height:calc(100% - 50px);
     min-height:calc(100vh - 50px);
     float:right;
+    
+}
+
+.flag{
+    margin-left: -15px;
+    margin-right: -15px;
+    width: calc(100% + 30px);
+}
+
+.error{
+    color:red;
+    visibility: hidden;
+    height: 0px;
+    margin-bottom: 0px;
 }
 
 .affix {
