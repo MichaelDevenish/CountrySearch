@@ -10,6 +10,7 @@
 .two {
 	background-color:#999;
     height:calc(100% - 50px);
+    min-height:calc(100vh - 50px);
     float:right;
 }
 
@@ -43,6 +44,7 @@ body { padding-top: 50px; }
         position:relative !important; 
     }
     .two {
-        height:calc(100% - 450px);
+        height:calc(100% - 500px);
+        min-height:calc(100vh - 500px);
     }
 }
