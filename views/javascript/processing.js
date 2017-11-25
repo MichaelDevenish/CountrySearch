@@ -10,6 +10,34 @@ function drawMap() {
     });
 }
 
+function queryGeo() {
+    if (navigator.geolocation) {
+        $("p#geoError").css('visibility', 'hidden');
+        $("p#geoError").css('height', '0px');
+        $("p#geoError").css('margin-bottom', '0px');
+        navigator.geolocation.getCurrentPosition(showPosition, error);
+    } else {
+        $("p#geoError").css('visibility', 'visible');
+        $("p#geoError").css('height', '24px');
+        $("p#geoError").css('margin-bottom', '16px');
+    }
+}
+function showPosition(position) {
+    queryDatabase("/geo", { lat: position.coords.latitude, lng: position.coords.longitude });
+}
+
+function error() {
+    $("p#geoError").css('visibility', 'visible');
+    $("p#geoError").css('height', '24px');
+    $("p#geoError").css('margin-bottom', '16px');
+}
+
+function hideError(self) {
+    self.style.visibility = "hidden";
+    self.style.height = "0px";
+    self.style.marginBottom = "0px";
+}
+
 //queries the database for a location based on a name
 function queryName() {
     var querys = $('#search').val();
@@ -32,11 +60,13 @@ function queryName() {
 function queryDatabase(path, request) {
     $.post(path, request, function (information) {
         if (information.errno === undefined) {
+            //we only want the first result so if there are more only grab the first
+            var info = information[0] === undefined ? information : information[0];
             //add a location marker and move to it
-            SetMarker({ lat: information[0].latlng[0], lng: information[0].latlng[1] }, information[0].name);
+            SetMarker({ lat: info.latlng[0], lng: info.latlng[1] }, information.name);
             //clear and show new information text
             $("div#information").empty();
-            $("div#information").append(ConstructResult(information));
+            $("div#information").append(ConstructResult(info));
             //if query good hide possibly visible error
             $("p#resultError").css('visibility', 'hidden');
             $("p#resultError").css('height', '0px');
@@ -54,13 +84,13 @@ function queryDatabase(path, request) {
 function ConstructResult(information) {
     //format the data that was returned to be html readable
     var result = "";
-    result += "<img class=\"flag\" src=\"" + information[0].flag + "\" height=\"100%\" width=\"100%\">";
-    result += "<h1>" + information[0].name + "</h1>";
-    result += "<p> Area: " + information[0].area + "km<p>";
-    result += "<p> Population: " + information[0].population + "<p>";
-    result += "<p> Region: " + information[0].region + " (" + information[0].subregion + ")<p>";
-    result += "<p> Capital: " + information[0].capital + "<p>";
-    result += "<p> Demonym: " + information[0].demonym + "<p>";
+    result += "<img class=\"flag\" src=\"" + information.flag + "\" height=\"100%\" width=\"100%\">";
+    result += "<h1>" + information.name + "</h1>";
+    result += "<p> Area: " + information.area + "km<p>";
+    result += "<p> Population: " + information.population + "<p>";
+    result += "<p> Region: " + information.region + " (" + information.subregion + ")<p>";
+    result += "<p> Capital: " + information.capital + "<p>";
+    result += "<p> Demonym: " + information.demonym + "<p>";
     result += FormatLanguages(information);
     result += FormatCurrencies(information);
     return result;
@@ -69,9 +99,9 @@ function ConstructResult(information) {
 //format all languages in the information as a readable string and return it
 function FormatLanguages(information) {
     var result = "<p> Languages: ";
-    for (var i = 0; i < information[0].languages.length; i++) {
-        result += information[0].languages[i].name;
-        if (i + 1 < information[0].languages.length)
+    for (var i = 0; i < information.languages.length; i++) {
+        result += information.languages[i].name;
+        if (i + 1 < information.languages.length)
             result += ", ";
     }
     result += "</p>";
@@ -80,9 +110,9 @@ function FormatLanguages(information) {
 //format all currencies in the information as a readable string and return it
 function FormatCurrencies(information) {
     var result = "<p> Currencies: ";
-    for (var i = 0; i < information[0].currencies.length; i++) {
-        result += information[0].currencies[i].name + " (" + information[0].currencies[i].symbol + ")";
-        if (i + 1 < information[0].currencies.length)
+    for (var i = 0; i < information.currencies.length; i++) {
+        result += information.currencies[i].name + " (" + information.currencies[i].symbol + ")";
+        if (i + 1 < information.currencies.length)
             result += ", ";
     }
     result += "</p>";

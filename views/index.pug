@@ -26,8 +26,9 @@ html(lang='en')
                                 i.glyphicon.glyphicon-search
                             button.btn.btn-default(type='button', onclick='queryGeo()')
                                 i.glyphicon.glyphicon-map-marker
-            p#searchError.error.text-center Search box must contain an entry   
-            p#resultError.error.text-center The requested result could not be found 
+            p#searchError.error.text-center(onclick="hideError(this)") Search box must contain an entry   
+            p#resultError.error.text-center(onclick="hideError(this)") The requested result could not be found 
+            p#geoError.error.text-center(onclick="hideError(this)") GPS has been blocked by the browser 
         .row
             #map.col-xs-12.col-sm-8.one( data-spy="affix", data-offset-top="0")
             #information.col-xs-12.col-sm-4.two
