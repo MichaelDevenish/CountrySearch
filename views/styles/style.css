@@ -47,15 +47,23 @@
      margin:7px;
 }
 
-body { padding-top: 50px; }
+body {
+     padding-top: 50px; 
+}
+
 @media screen and (max-width: 768px) {
-    body { padding-top: 100px; }
+    body {
+         padding-top: 100px; 
+    }
+
     .one {
         height:400px;
-    }   
+    } 
+
     .affix {
         position:relative !important; 
     }
+
     .two {
         height:calc(100% - 500px);
         min-height:calc(100vh - 500px);
