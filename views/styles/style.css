@@ -1,5 +1,48 @@
-.error{
-    color:green;
-    height: 0px;
-    margin-bottom: 0px;
+.one {
+	background-color:#ccc;
+    height:calc(100vh - 50px);
+    position: fixed;
+    right: 0;
+    left: 0;
+
+}
+
+.two {
+	background-color:#999;
+    height:calc(100% - 50px);
+    float:right;
+}
+
+.affix {
+    top:50;
+    left:0;
+    position:fixed !important;
+}
+
+.navbar{
+    box-shadow:0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+    min-width:650px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.parentInput{
+    position:relative; 
+     width:70%;
+     margin:7px;
+}
+
+body { padding-top: 50px; }
+@media screen and (max-width: 768px) {
+    body { padding-top: 100px; }
+    .one {
+        height:400px;
+    }   
+    .affix {
+        position:relative !important; 
+    }
+    .two {
+        height:calc(100% - 450px);
+    }
 }
