@@ -20,13 +20,14 @@ html(lang='en')
                     a.navbar-brand(href='/') Country Search
                 .form-group(style='display:inline;')
                     .input-group.parentInput
-                        input#search.form-control(type='text', placeholder='Postcode', onkeydown='if (event.keyCode == 13) queryDatabase()')
+                        input#search.form-control(type='text', placeholder='Country', onkeydown='if (event.keyCode == 13) queryDatabase()')
                         .input-group-btn
                             button.btn.btn-default(type='button', onclick='queryDatabase()')
                                 i.glyphicon.glyphicon-search
                             button.btn.btn-default(type='button', onclick='queryGeo()')
                                 i.glyphicon.glyphicon-map-marker
             p#searchError.error.text-center Search box must contain an entry   
+            p#resultError.error.text-center The requested result could not be found 
         .row
             #map.col-xs-12.col-sm-8.one( data-spy="affix", data-offset-top="0")
             #information.col-xs-12.col-sm-4.two
