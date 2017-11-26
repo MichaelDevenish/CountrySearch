@@ -10,14 +10,8 @@ router.use(bodyParser.urlencoded({ extended: false }))
 router.get('/name', function (req, res) {
     nameProcess(req.query.name, res);
 });
-router.post('/name', function (req, res) {
-    nameProcess(req.body.name, res);
-});
 router.get('/geo', function (req, res) {
     geoProcess(req.query.lat, req.query.lng, res);
-});
-router.post('/geo', function (req, res) {
-    geoProcess(req.body.lat, req.body.lng, res);
 });
 
 //functions

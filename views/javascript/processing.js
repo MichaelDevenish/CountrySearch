@@ -33,7 +33,7 @@ function queryName() {
 
 //queries the database at the supplied location for the requested query
 function queryDatabase(path, request) {
-    $.post(path, request, function (information) {
+    $.get(path, request, function (information) {
         if (information.errno === undefined) {
             //we only want the first result so if there are more only grab the first
             var info = information[0] === undefined ? information : information[0];
